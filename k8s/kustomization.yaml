@@ -4,9 +4,6 @@ resources:
 - deployment.yaml
 - service.yaml
 images:
-- name: quay.io/dsanchezseco-ibm/tekton-e2e
-  newName: quay.io/dsanchezseco-ibm/tekton-e2e
-  newTag: f27b87ff8ceed4e9f3c3b4fc4f35521a8ac90c605902c980991d4b4c1189aa9c
 commonLabels:
   app: tekton-e2e
   app.kubernetes.io/instance: tekton-e2e
