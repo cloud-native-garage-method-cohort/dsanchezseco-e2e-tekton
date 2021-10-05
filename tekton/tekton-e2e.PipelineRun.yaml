@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: tekton-e2e-run-
+spec:
+  serviceAccountName: build-bot
+  params:
+    - name: source-repo
+      value: https://github.com/cloud-native-garage-method-cohort/dsanchezseco-e2e-tekton
+    - image-repo:
+      value: quay.io/dsanchezseco-ibm/tekton-e2e
+    - name: app-name
+      value: tekton-e2e-dsanchezseco
+  pipelineRef:
+    name: nodejs
+  workspaces:
+    - name: pipeline-shared-data
+      volumeClaimTemplate:
+        spec:
+          resources:
+            request:
+              storage: 1Gi
+          accessModes:
+            - ReadWriteOnce

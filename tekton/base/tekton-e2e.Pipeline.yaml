@@ -1,0 +1,75 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: nodejs
+spec:
+  params:
+    - name: source-repo
+      type: string
+    - name: image-repo
+      type: string
+    - name: app-name
+      type: string
+  tasks:
+    - name: clone-repository
+      params:
+        - name: url
+          value: "$(params.source-repo)"
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: pipeline-shared-data
+
+    - name: create-image
+      params:
+        - name: IMAGE
+          value: "$(params.image-repo):$(tasks.clone-repository.results.commit)"
+      runAfter:
+        - clone-repository
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+
+    - name: create-configuration
+      params:
+        - name: app-name
+          value: "$(params.app-name)"
+        - name: app-namespace
+          value: "$(context.pipelineRun.namespace)"
+        - name: source-repo
+          value: "$(params.source-repo)"
+        - name: commit
+          value: "$(tasks.clone-repository.results.commit)"
+        - name: image-repo
+          value: "$(params.image-repo)"
+        - name: runtime
+          value: "js"
+      runAfter:
+        - create-image
+      taskRef:
+        name: kustomize
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+
+    - name: deploy
+      params:
+        - name: app-namespace
+          value: "$(context.pipelineRun.namespace)"
+        - name: manifest
+          value: "$(tasks.create-configuration.results.manifest)"
+      runAfter:
+        - create-configuration
+      taskRef:
+        name: deploy
+      workspaces:
+        - name: source
+          workspace: pipeline-shared-data
+
+  workspaces:
+    - name: pipeline-shared-data
