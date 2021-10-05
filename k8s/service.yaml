@@ -5,10 +5,11 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: tekton-e2e
+    app.kubernetes.io/name: app
+    app.kubernetes.io/instance: app-instance
   ports:
   - name: http
     protocol: TCP
-    port: 3000
+    port: 80
     targetPort: 3000
   sessionAffinity: None

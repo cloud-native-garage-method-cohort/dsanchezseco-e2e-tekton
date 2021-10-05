@@ -4,12 +4,19 @@ metadata:
   name: tekton-e2e-deployment
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: app
+      app.kubernetes.io/instance: app-instance
   template:
     metadata:
-      app: tekton-e2e
+      labels:
+        app.kubernetes.io/name: app
+        app.kubernetes.io/instance: app-instance
     spec:     # pod spec
       containers:
       - name: tekton-e2e
         image: quay.io/dsanchezseco-ibm/tekton-e2e
         ports:
         - containerPort: 3000
+          protocol: TCP
