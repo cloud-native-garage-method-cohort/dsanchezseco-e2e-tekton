@@ -8,6 +8,9 @@ spec:
       type: string
     - name: image-repo
       type: string
+    - name: sha
+      type: string
+      description: SHA of the commit to build
     - name: app-name
       type: string
   tasks:
@@ -15,6 +18,8 @@ spec:
       params:
         - name: url
           value: "$(params.source-repo)"
+        - name: revision
+          value: "$(params.sha)"
       taskRef:
         name: git-clone
         kind: ClusterTask
