@@ -7,7 +7,7 @@ spec:
   params:
     - name: source-repo
       value: https://github.com/cloud-native-garage-method-cohort/dsanchezseco-e2e-tekton
-    - image-repo:
+    - name: image-repo
       value: quay.io/dsanchezseco-ibm/tekton-e2e
     - name: app-name
       value: tekton-e2e-dsanchezseco
@@ -18,7 +18,7 @@ spec:
       volumeClaimTemplate:
         spec:
           resources:
-            request:
+            requests:
               storage: 1Gi
           accessModes:
             - ReadWriteOnce
