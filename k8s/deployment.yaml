@@ -6,8 +6,7 @@ spec:
   replicas: 2
   template:
     metadata:
-      labels: # labels to select/identify the deployment
-        app: tekton-e2e
+      app: tekton-e2e
     spec:     # pod spec
       containers:
       - name: tekton-e2e
