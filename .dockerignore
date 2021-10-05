@@ -1,0 +1,8 @@
+# node packages
+node_modules/
+
+# tekton yamls
+tekton/
+
+# kubernetes yamls
+k8s/
