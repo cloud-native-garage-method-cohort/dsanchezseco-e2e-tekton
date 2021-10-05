@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tekton-e2e-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels: # labels to select/identify the deployment
+        app: tekton-e2e
+    spec:     # pod spec
+      containers:
+      - name: tekton-e2e
+        image: quay.io/dsanchezseco-ibm/tekton-e2e
+        ports:
+        - containerPort: 3000

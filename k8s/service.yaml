@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: tekton-e2e-service
+spec:
+  type: NodePort
+  selector:
+    app: tekton-e2e
+  ports:
+    - port: 3000
+      targetPort: 3000
