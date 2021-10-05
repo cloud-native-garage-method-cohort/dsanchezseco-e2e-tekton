@@ -3,6 +3,8 @@ kind: Route
 metadata:
   name: tekton-e2e-route
 spec:
+  port:
+    targetPort: 3000
   tls:
     termination: edge
   to:
