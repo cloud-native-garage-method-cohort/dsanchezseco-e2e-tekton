@@ -1,11 +1,14 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: tekton-e2e-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: tekton-e2e
   ports:
-    - port: 3000
-      targetPort: 3000
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 3000
+  sessionAffinity: None
